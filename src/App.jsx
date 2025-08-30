@@ -9,7 +9,7 @@ import UsersPosts from "./Components/UsersPosts/UsersPosts";
 import NotFound from "./Components/NotFound/NotFound";
 import ProtectedRoutes from "./Components/ProtectedRoutes/ProtectedRoutes";
 import ProtectedAuth from "./Components/ProtectedAuth/ProtectedAuth";
-import PostDetails from './Components/postDetails/postDetails';
+import PostDetails from './Components/PostDetails/PostDetails';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
