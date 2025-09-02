@@ -5,7 +5,7 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { refine } from "./../../../node_modules/zod/v4/classic/schemas";
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   let schema = z.object({
@@ -93,8 +93,17 @@ export default function Register() {
           )}
           <input
             {...register("dateOfBirth")}
-            type="date"
-            placeholder="Select Date"
+            type="text"
+            onFocus={(e) => {
+              e.target.type = "date";
+              e.target.showPicker?.();
+            }}
+            onBlur={(e) => {
+              if (!e.target.value) {
+                e.target.type = "text"; 
+              }
+            }}
+            placeholder="Select Date of birth"
             className="input input-neutral w-full focus:outline-0 border-slate-400 my-2 rounded-lg"
           />
           {errors.dateOfBirth && (
