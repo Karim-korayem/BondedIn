@@ -49,7 +49,7 @@ export default function Login() {
           <input
             {...register("email")}
             type="email"
-            placeholder="Type Your Email..."
+            placeholder="Type Your Email"
             className="input input-neutral w-full focus:outline-0 border-slate-400 my-2 rounded-lg"
           />
           {errors.email && (
@@ -80,7 +80,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-3 py-2 rounded-xl cursor-pointer bg-blue-800  hover:bg-blue-700 transition duration-300 ease-in-out text-white my-3 absolute right-5 bottom-3 max-sm:static max-sm:ms-24 max-sm:mt-5"
+              className="px-3 py-2 rounded-xl cursor-pointer bg-blue-800  hover:bg-blue-700 transition duration-300 ease-in-out text-white my-3 absolute right-5 bottom-3 max-sm:static block max-sm:mx-auto max-sm:mt-5"
             >
               {isSubmitting ? "Loading... " : "Log In"}
             </button>

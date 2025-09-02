@@ -3,24 +3,23 @@ import React, { createContext, useState } from "react";
 import toast from "react-hot-toast";
 export let PostContext = createContext();
 
-
 export default function PostContextProvider({ children }) {
   let headers = { token: localStorage.getItem("userToken") };
-  const [UserData, setUserData] = useState({})
-  
-//   async function getAllPosts() {
-//     try {
-//       let { data } = await axios.get(
-//         `https://linked-posts.routemisr.com/posts?limit=50&sort=-createdAt`,
-//         { headers }
-//       );
-// console.log(data , "from allposts");
+  const [UserData, setUserData] = useState({});
 
-//       return data.posts;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
+  //   async function getAllPosts() {
+  //     try {
+  //       let { data } = await axios.get(
+  //         `https://linked-posts.routemisr.com/posts?limit=50&sort=-createdAt`,
+  //         { headers }
+  //       );
+  // console.log(data , "from allposts");
+
+  //       return data.posts;
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
 
   async function getSinglePost(id) {
     try {
@@ -48,7 +47,7 @@ export default function PostContextProvider({ children }) {
     }
   }
 
-async function getUserData() {
+  async function getUserData() {
     try {
       let { data } = await axios.get(
         `https://linked-posts.routemisr.com/users/profile-data`,
@@ -56,7 +55,7 @@ async function getUserData() {
       );
       console.log(data, "from getUserData");
       setUserData(data.user);
-    
+
       return data.user;
     } catch (error) {
       console.log(error);
@@ -73,13 +72,14 @@ async function getUserData() {
       toast.success("Comment Successfully Added !");
 
       return data.comments;
+    
     } catch (error) {
       console.log(error);
       toast.error("Comment Failed!");
     }
   }
 
-   async function addPosts(formData) {
+  async function addPosts(formData) {
     try {
       let { data } = await axios.post(
         `https://linked-posts.routemisr.com/posts`,
@@ -87,29 +87,80 @@ async function getUserData() {
         { headers }
       );
       toast.success("Post Successfully Added !");
-console.log(data);
-
-      
+      console.log(data);
     } catch (error) {
       console.log(error);
       toast.error("Post Failed!");
     }
   }
 
-     async function deletePost(id) {
+  async function deletePost(id) {
     try {
       let { data } = await axios.delete(
         `https://linked-posts.routemisr.com/posts/${id}`,
-       
+
         { headers }
       );
       toast.success("Post Deleted Successfully !");
-console.log(data);
+      console.log(data);
 
       // return data.comments;
     } catch (error) {
       console.log(error);
       toast.error("Post deletion Failed!");
+    }
+  }
+
+async function updatePost(id, data) {
+  try {
+    let formData = new FormData();
+    formData.append("body", data.body);
+    if (data.image) {
+      formData.append("image", data.image);
+    }
+
+    let { data: response } = await axios.put(
+      `https://linked-posts.routemisr.com/posts/${id}`,
+      formData,
+      { headers }
+    );
+
+    toast.success("Post Updated Successfully!");
+    console.log(response);
+    return response.post;
+  } catch (error) {
+    console.log(error);
+    toast.error("Post Update Failed!");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+  async function uploadProfilePicture(file) {
+    try {
+      let formData = new FormData();
+      formData.append("photo", file);
+      let { data } = await axios.put(
+        `https://linked-posts.routemisr.com/users/upload-photo`,
+        formData,
+        { headers }
+      );
+      toast.success("Profile Photo Updated!");
+      console.log(data);
+      if (data.user) {
+        setUserData(data.user);
+      }
+      return data;
+    } catch (error) {
+      console.log(error);
+      toast.error("Upload Failed!");
     }
   }
 
@@ -123,6 +174,8 @@ console.log(data);
         addComment,
         addPosts,
         deletePost,
+        uploadProfilePicture,
+        updatePost,
         UserData,
       }}
     >

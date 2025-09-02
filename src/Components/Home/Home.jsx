@@ -31,7 +31,7 @@ export default function Home() {
       }
     );
   }
-  let { data, error, isError, isFetching, isLoading } = useQuery({
+  let { data, error, isError, isLoading } = useQuery({
     queryKey: ["allPosts"],
     queryFn: getAllPosts,
     // staleTime:3000,

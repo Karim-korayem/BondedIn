@@ -5,9 +5,9 @@ import Loader from "../Loader/Loader";
 import AddPost from "../AddPost/AddPost";
 import PostCard from "../PostCard/PostCard";
 
-
 export default function UsersPosts() {
-  let { getUserData, getUserPost } = useContext(PostContext);
+  let { getUserData, getUserPost, uploadProfilePicture } =
+    useContext(PostContext);
   let { UserData } = useContext(PostContext);
   const [UserPosts, setUserPosts] = useState([]);
   const [isLoading, setisLoading] = useState(true);
@@ -26,6 +26,16 @@ export default function UsersPosts() {
   useEffect(() => {
     getUserPostData();
   }, []);
+
+  const handleUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadProfilePicture(file).then(() => {
+        getUserPostData();
+      });
+    }
+  };
+
   return (
     <>
       <div className="container mx-auto relative ">
@@ -41,18 +51,37 @@ export default function UsersPosts() {
                     no posts yet
                   </p>
                 ) : null}
+
                 <div className="card card-border bg-base-100 w-96 mx-auto mt-8">
                   <div className="card-body text-center font-bold text-blue-800">
-                    <span className="border-b border-gray-400/50 block mb-5 pb-4 text-center">
+                    <div>
                       <img
                         src={UserData.photo}
                         alt={UserData.name}
                         className=" w-28 h-28 rounded-full shadow-md mb-3 mx-auto"
                       />
-                    </span>
-                    {/* <div className="card-actions justify-end">
-                  <button className="btn btn-primary">Buy Now</button>
-                </div> */}
+                      <input
+                        type="file"
+                        id="profilePic"
+                        onChange={handleUpload}
+                        className="hidden"
+                      />
+
+                      <div
+                        className="tooltip"
+                        data-tip="change profile picture"
+                      >
+                        <label
+                          htmlFor="profilePic"
+                          className=" cursor-pointer p-2 w-10 h-10"
+                        >
+                          <i className="fa-solid fa-camera  text-blue-800  hover:text-blue-700 transition duration-300 ease-in-out text-2xl"></i>
+                        </label>
+                      </div>
+
+                      <span className="border-b border-gray-400/50 block mb-5 pb-4 text-center"></span>
+                    </div>
+
                     <div className="overflow-x-auto">
                       <table className="table">
                         <tbody>

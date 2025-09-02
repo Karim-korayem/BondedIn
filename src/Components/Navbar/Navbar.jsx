@@ -47,11 +47,13 @@ export default function Navbar() {
                       <i className="fa-solid fa-house"></i> Home
                     </NavLink>
                   </li>
+                   <span className="border-b border-gray-400/50 block text-center"></span>
                   <li>
                     <NavLink to="usersposts">
                       <i className="fa-solid fa-user"></i> My Profile
                     </NavLink>
-                  </li>{" "}
+                  </li>
+                   <span className="border-b border-gray-400/50 block text-center"></span>
                 </>
               ) : null}
 

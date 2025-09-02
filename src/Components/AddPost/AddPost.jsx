@@ -11,7 +11,7 @@ export default function AddPost({ callback }) {
 
   async function getUserDataInAddPost() {
     let response2 = await getUserData();
-    console.log(UserData);
+    console.log(response2);
   }
   useEffect(() => {
     getUserDataInAddPost();
@@ -29,6 +29,7 @@ export default function AddPost({ callback }) {
     setPreview(null);
     callback();
     setIsLoading(false);
+     document.getElementById("my_modal_6").checked = false;
   }
   return (
     <div className="w-1/3 mx-auto border-base-300 bg-base-200 border rounded-box p-7 mt-5 text-center max-sm:w-[90%] max-sm:relative">
@@ -39,7 +40,6 @@ export default function AddPost({ callback }) {
           </span>
         </span>
 
-        {/* The button to open modal */}
         <div className="flex justify-center">
           <Link to="/usersposts">
             <div className="avatar">
@@ -52,8 +52,8 @@ export default function AddPost({ callback }) {
             htmlFor="my_modal_6"
             className=" file-input w-[80%] my-2 rounded-4xl bg-gray-700 hover:bg-gray-600 transition duration-300 ease-in-out"
           >
-            <p className=" ms-4 font-bold text-gray-200">
-              what's on your mind, {UserData.name} ?
+            <p className="ms-2 font-bold text-gray-200">
+              what's on your mind, {UserData?.name?.split(" ")[0]}?
             </p>
           </label>
         </div>
@@ -68,12 +68,7 @@ export default function AddPost({ callback }) {
                 placeholder="Type Your post..."
                 className="input input-neutral w-full focus:outline-0 border-slate-400 my-2 rounded-4xl"
               />
-              {/* <input
-          name="image"
-          type="file"
-          placeholder="Upload Your image..."
-          className=" input-neutral w-3/4 focus:outline-0 border-slate-400 my-2 rounded-4xl max-sm:w-full"
-        /> */}
+             
               {/* hidden input */}
               <input
                 name="image"
@@ -84,14 +79,14 @@ export default function AddPost({ callback }) {
                 onChange={(e) => {
                   const file = e.target.files[0];
                   if (file) {
-                    setPreview(URL.createObjectURL(file)); // 👈 عرض الصورة
+                    setPreview(URL.createObjectURL(file)); 
                   }
                 }}
               />
               {/* label acts as the button */}
               <label
                 htmlFor="fileInput"
-                className="cursor-pointer p-3 text-white"
+                className="cursor-pointer p-3"
               >
                 <i className=" text-blue-800  hover:text-blue-700 transition duration-300 ease-in-out text-2xl fa-solid fa-images">
                   <p className=" font-normal text-xs ">photo</p>
