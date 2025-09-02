@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Register.module.css";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -8,6 +8,18 @@ import { refine } from "./../../../node_modules/zod/v4/classic/schemas";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const [passwordAnimation, setPasswordAnimation] = useState("");
+  const rulesForPasswordFromApi = [
+    { label: "1 uppercase letter", test: (pw) => /[A-Z]/.test(pw) },
+    { label: "1 lowercase letter", test: (pw) => /[a-z]/.test(pw) },
+    { label: "1 number", test: (pw) => /[0-9]/.test(pw) },
+    {
+      label: "1 special character (#?!@$%^&*-)",
+      test: (pw) => /[#?!@$%^&*-]/.test(pw),
+    },
+    { label: "At least 8 characters", test: (pw) => pw.length >= 8 },
+  ];
+
   let schema = z.object({
     name: z
       .string()
@@ -73,12 +85,37 @@ export default function Register() {
           {errors.email && (
             <p className="text-red-500">{errors.email.message}</p>
           )}
-          <input
-            {...register("password")}
-            type="password"
-            placeholder="Type Your Password"
-            className="input input-neutral w-full focus:outline-0 border-slate-400 my-2 rounded-lg"
-          />
+
+          {/*  */}
+          <div className="tooltip w-full">
+            <div className="tooltip-content rounded-2xl">
+              <div className=" text-2xl font-black">
+                <ul className="text-sm mt-1">
+                  {rulesForPasswordFromApi.map((rule, i) => (
+                    <li
+                      key={i}
+                      className={
+                        rule.test(passwordAnimation)
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
+                      {rule.label}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <input
+              {...register("password")}
+              type="password"
+              value={passwordAnimation}
+              onChange={(e) => setPasswordAnimation(e.target.value)}
+              placeholder="Enter your password"
+              className="input input-neutral w-full focus:outline-0 border-slate-400 my-2 rounded-lg"
+            />
+          </div>
+
           {errors.password && (
             <p className="text-red-500">{errors.password.message}</p>
           )}
@@ -100,7 +137,7 @@ export default function Register() {
             }}
             onBlur={(e) => {
               if (!e.target.value) {
-                e.target.type = "text"; 
+                e.target.type = "text";
               }
             }}
             placeholder="Select Date of birth"
